@@ -20,11 +20,12 @@ jobs:
       - name: 'Install CLI'
         run: npm install @salesforce/cli --location=global
       - run: sf --version
-      - name: 'Authenticate to Agentforce org'
+      - name: Authenticate with Salesforce Org
         run: |
-            echo ${{ secrets.SFDX_AUTH_URL }} > ./SFDX_AUTH_URL.txt
-            ls -al ./SFDX_AUTH_URL.txt
-            sf org login sfdx-url -f ./SFDX_AUTH_URL.txt -a DevOrg -d
+          echo "${{ secrets.SFDX_AUTH_URL }}" > auth_url.txt
+          sf org login sfdx-url --sfdx-url-file auth_url.txt --set-default -a DevOrg
+      - name: Verify Org Authentication
+        run: sf org display --verbose
       - name: 'Query data'
         run: |
             sf data query --query "select name from organization" -o DevOrg
