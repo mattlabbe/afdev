@@ -25,7 +25,7 @@ jobs:
           echo "${{ secrets.SFDX_AUTH_URL }}" > auth_url.txt
           sf org login sfdx-url --sfdx-url-file auth_url.txt --set-default -a DevOrg
       - name: Verify Org Authentication
-        run: sf org display --verbose
+        run: sf org display
       - name: 'Query data'
         run: |
             sf data query --query "select name from organization" -o DevOrg
